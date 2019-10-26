@@ -1,5 +1,5 @@
-function displayAll(scrapeBee) {
-    scrapeBee.array.forEach(data => {
+function displayAll(scrapeAltPress) {
+    scrapreAltPress.array.forEach(data => {
         let beeArticle = data.newArticle
     });
 }

@@ -20,7 +20,7 @@ var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/mongoHeadlines
 mongoose.connect(MONGODB_URI)
 
 var databaseURL = "scraper";
-var articles = ["scrapeBee"];
+var articles = ["scrapeAltPress"];
 
 var db = mongojs(databaseURL, articles);
 
@@ -29,66 +29,47 @@ db.on("error", function (error) {
 });
 
 app.get("/", function (req, res) {
-  res.send("Hello world!");
+  res.send("If you are seeing this page, it means I couldn't get my routes to work :-(");
 });
 
+app.get("/all", function (req, res) {
+  db.scrapeAltPress.find({}, function (err, found) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.json(found);
+    }
+  });
+});
+
+app.get("/reset", function (req, res) {
+  db.scrapeAltPress.drop()
+  res.send("reset");
+});
+
+
 app.get("/scrape", function (req, res) {
-  axios.get("https://www.newsreview.com/sacramento/home").then(function (response) {
+  axios.get("https://www.altpress.com/").then(function (response) {
     var $ = cheerio.load(response.data);
-    $(".big-news").each(function (i, element) {
-      let newBee = {
-
+    $("td-block-span12 div").each(function (i, element) {
+      let newPress = {
+        title: $(element).find('.entry-title').children('a').attr('title'),
+        summary: $(element).find('.td-excerpt').text(),
+        image: $(element).find('.entry-thumb').attr('src')
       }
-      var result = {};
-      result.title = $(this)
-        .children("a")
-        .text();
-      result.link = $(this)
-        .children("a")
-        .attr("href");
-
-      db.Article.create(result)
-        .then(function (dbArticle) {
-          console.log(dbArticle);
-        })
+      db.scrapeAltPress.insert({
+        newPress: newPress
+      })
         .catch(function (err) {
-          console.log(err);
+          // If an error occurred, send it to the client
+          res.json(err);
         });
     });
 
     res.send("Scrape Complete");
   });
 });
-
-// app.get("/articles", function (req, res) {
-//   // Grab every document in the Articles collection
-//   db.Article.find({})
-//     .then(function (dbArticle) {
-//       // If we were able to successfully find Articles, send them back to the client
-//       res.json(dbArticle);
-//     })
-//     .catch(function (err) {
-//       // If an error occurred, send it to the client
-//       res.json(err);
-//     });
-// });
-
-// Route for grabbing a specific Article by id, populate it with it's note
-// app.get("/articles/:id", function (req, res) {
-//   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-//   db.Article.findOne({ _id: req.params.id })
-//     // ..and populate all of the notes associated with it
-//     .populate("note")
-//     .then(function (dbArticle) {
-//       // If we were able to successfully find an Article with the given id, send it back to the client
-//       res.json(dbArticle);
-//     })
-//     .catch(function (err) {
-//       // If an error occurred, send it to the client
-//       res.json(err);
-//     });
-// });
-
 
 // Start the server
 app.listen(PORT, function () {
