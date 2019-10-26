@@ -3,8 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>Scraping With Mongoose</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <title>Mongoose Scraper</title>
 
 </head>
 
@@ -12,9 +19,12 @@
     <div id="wrapper">
         <h1>Sac Bee Scraper</h1>
         <h2>Just a couple of the top articles at the Sacramento Bee.</h2>
-        <div id="articles"></div>
-        <div id="notes"></div>
+        <button id="scrape">SCRAPE</button>
+        <button id="reset">RESET</button>
+        <div id="article"></div>
+        <div id="text"></div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="app.js"></script>
 </body>
