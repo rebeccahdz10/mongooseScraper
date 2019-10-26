@@ -29,7 +29,7 @@ db.on("error", function (error) {
 });
 
 app.get("/", function (req, res) {
-  res.send("If you are seeing this page, it means I couldn't get my routes to work :-(");
+  res.send("Hello! The website is not currently scraping.");
 });
 
 app.get("/all", function (req, res) {
