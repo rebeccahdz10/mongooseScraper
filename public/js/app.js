@@ -1,6 +1,15 @@
 function displayAll(scrapeAltPress) {
-    scrapreAltPress.array.forEach(data => {
-        let beeArticle = data.newArticle
+    $("#text").empty();
+
+    scrapeAltPress.array.forEach(data => {
+        let altPressArticle = data.newPress
+
+        var tr = $("<tr>").append(
+            $("<td>").text(altPressArticle.title),
+            $("<td>").append('<img src="${altPressArticle.image}"/>'),
+            $("<td>").text(altPressArticle.summary)
+        )
+        $("#text").append(tr);
     });
 }
 

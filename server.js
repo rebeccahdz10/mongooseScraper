@@ -48,7 +48,6 @@ app.get("/reset", function (req, res) {
   res.send("reset");
 });
 
-
 app.get("/scrape", function (req, res) {
   axios.get("https://www.altpress.com/").then(function (response) {
     var $ = cheerio.load(response.data);
@@ -75,4 +74,3 @@ app.get("/scrape", function (req, res) {
 app.listen(PORT, function () {
   console.log("App running on port " + PORT + "!");
 });
-
